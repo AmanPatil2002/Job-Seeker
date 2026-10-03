@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Box,
@@ -38,26 +38,25 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const load = async (signal) => {
-    setLoading(true);
-    setError("");
-    try {
-      const [jobsData, appsData] = await Promise.all([
-        authFetch("/job/alljobs", signal),
-        authFetch("/application/allappl", signal),
-      ]);
-      if (signal?.aborted) return;
-      setJobs(Array.isArray(jobsData) ? jobsData : []);
-      setApplications(Array.isArray(appsData) ? appsData : []);
-    } catch (err) {
-      if (err.name === "AbortError") return;
-      setError(err.message);
-      setJobs([]);
-      setApplications([]);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
-  };
+const load = async (signal) => {
+  setLoading(true);
+  setError("");
+  try {
+    const jobsData = await authFetch("/job/alljobs", signal);
+    const appsData = await authFetch("/application/allappl", signal);
+
+    if (signal?.aborted) return;
+    setJobs(Array.isArray(jobsData) ? jobsData : []);
+    setApplications(Array.isArray(appsData) ? appsData : []);
+  } catch (err) {
+    if (err.name === "AbortError") return;
+    setError(err.message);
+    setJobs([]);
+    setApplications([]);
+  } finally {
+    if (!signal?.aborted) setLoading(false);
+  }
+};
 
   useEffect(() => {
     const controller = new AbortController();

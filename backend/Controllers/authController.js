@@ -5,7 +5,6 @@ require("dotenv").config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
-// Get all users
 const getAuth = (req, res) => {
   db.query("SELECT id, username, email, role FROM login", (err, result) => {
     if (err) {
@@ -19,7 +18,7 @@ const getAuth = (req, res) => {
   });
 };
 
-// Register user
+
 const postAuth = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;

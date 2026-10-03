@@ -51,7 +51,6 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.applyStyles("dark", { backgroundColor: "#1A2027" }),
 }));
 
-//--------------------------------------------------------------------chatgpt------------------------
 const today = () => {
   const d = new Date();
   const y = d.getFullYear();
@@ -86,7 +85,6 @@ const isExpired = (deadline) => {
   t.setHours(0, 0, 0, 0);
   return deadlineDate < t;
 };
-//--------------------------------------------------------------------chatgpt------------------------
 
 const getInitialForm = () => ({
   title: "",
@@ -118,13 +116,10 @@ export default function PostJob() {
     severity: "success",
   });
 
-  const showSnack = React.useCallback(
-    (message, severity = "success") =>
-      setSnack({ open: true, message, severity }),
-    [],
-  );
+  const showSnack = (message, severity = "success") =>
+    setSnack({ open: true, message, severity });
 
-  const fetchJobs = React.useCallback(async () => {
+  const fetchJobs = async () => {
     try {
       setTableLoading(true);
       const token = localStorage.getItem("token");
@@ -140,11 +135,13 @@ export default function PostJob() {
     } finally {
       setTableLoading(false);
     }
-  }, [showSnack]);
+  };
 
+  // Run once on mount (empty dependency array fixes the infinite loop)
   useEffect(() => {
     fetchJobs();
-  }, [fetchJobs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const lastPage = Math.max(0, Math.ceil(jobs.length / rowsPerPage) - 1);
@@ -616,13 +613,13 @@ export default function PostJob() {
                 <TableBody>
                   {tableLoading ? (
                     <TableRow>
-                      <TableCell colSpan={6} align="center" sx={{ py: 5 }}>
+                      <TableCell colSpan={3} align="center" sx={{ py: 5 }}>
                         <CircularProgress size={28} />
                       </TableCell>
                     </TableRow>
                   ) : visibleRows.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
+                      <TableCell colSpan={3} align="center" sx={{ py: 4 }}>
                         You haven't posted any jobs yet.
                       </TableCell>
                     </TableRow>
@@ -634,7 +631,8 @@ export default function PostJob() {
                         selected={job.id === editingId}
                       >
                         <TableCell>
-                          <Stack spacing={0.5} alignItems="flex-start">
+                          {/* alignItems moved into sx to fix the DOM prop warning */}
+                          <Stack spacing={0.5} sx={{ alignItems: "flex-start" }}>
                             <Button
                               size="small"
                               onClick={() => handleEdit(job)}
@@ -704,7 +702,7 @@ export default function PostJob() {
 
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
+                      <TableCell colSpan={3} />
                     </TableRow>
                   )}
                 </TableBody>
@@ -718,7 +716,7 @@ export default function PostJob() {
                         15,
                         { label: "All", value: -1 },
                       ]}
-                      colSpan={6}
+                      colSpan={3}
                       count={jobs.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
@@ -765,6 +763,7 @@ export default function PostJob() {
           </Button>
         </DialogActions>
       </Dialog>
+
       <Snackbar
         open={snack.open}
         autoHideDuration={4000}
