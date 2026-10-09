@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -109,7 +108,6 @@ const getId = (job) => job?._id ?? job?.id;
 const uniqueSorted = (arr) =>
   [...new Set(arr.filter(Boolean))].sort((a, b) => a.localeCompare(b));
 
-
 function JobListItem({ job, selected, onSelect }) {
   return (
     <Card
@@ -136,7 +134,7 @@ function JobListItem({ job, selected, onSelect }) {
             color="text.secondary"
             sx={{ overflowWrap: "anywhere" }}
           >
-            {[job.company_name, job.location].filter(Boolean).join(", ")}
+            {job.company_name}, {job.location}
           </Typography>
           <Stack
             direction="row"
@@ -343,7 +341,17 @@ function JobDetails({ job, applied, expired, onApply }) {
             <Typography variant="h6" component="h3" sx={{ mt: 3, mb: 1.5 }}>
               Skills
             </Typography>
-            <Stack direction="row" gap={1} flexWrap="wrap">
+
+            <Stack
+              direction="row"
+              gap={1}
+              flexWrap="wrap"
+              sx={{
+                maxHeight: 120,
+                overflowY: "auto",
+                pr: 1,
+              }}
+            >
               {skills.map((skill) => (
                 <Chip key={skill} label={skill} size="small" />
               ))}

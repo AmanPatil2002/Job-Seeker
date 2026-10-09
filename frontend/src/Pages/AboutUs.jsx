@@ -1,6 +1,5 @@
 import logo from "../assets/logo.png";
 
-
 function AboutUs() {
   return (
     <div className="bg-gray-100 min-h-screen">

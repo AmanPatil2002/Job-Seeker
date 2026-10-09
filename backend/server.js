@@ -13,7 +13,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-// Routes
+// Routes 
 app.use("/auth", authRoutes);
 app.use("/job", jobRoutes);
 app.use("/application", applicationRoutes);

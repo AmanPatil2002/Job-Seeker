@@ -106,9 +106,7 @@ function Login() {
       console.error("Backend response:", err.response?.data);
 
       if (err.response?.status === 400) {
-        alert(
-          err.response?.data?.message || "Please enter valid login details",
-        );
+        alert(err.response?.data?.message || "Please enter valid login details");
       } else if (err.response?.status === 401) {
         alert(err.response?.data?.message || "Invalid username or password");
       } else if (err.response?.status === 404) {

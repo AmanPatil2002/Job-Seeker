@@ -14,7 +14,6 @@ import {
   Tooltip,
   useMediaQuery,
   useTheme,
-  Avatar,
   Stack,
   Button,
 } from "@mui/material";

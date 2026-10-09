@@ -137,10 +137,8 @@ export default function PostJob() {
     }
   };
 
-  // Run once on mount (empty dependency array fixes the infinite loop)
   useEffect(() => {
     fetchJobs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -631,7 +629,6 @@ export default function PostJob() {
                         selected={job.id === editingId}
                       >
                         <TableCell>
-                          {/* alignItems moved into sx to fix the DOM prop warning */}
                           <Stack spacing={0.5} sx={{ alignItems: "flex-start" }}>
                             <Button
                               size="small"
